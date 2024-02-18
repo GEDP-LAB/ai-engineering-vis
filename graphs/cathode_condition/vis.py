@@ -14,6 +14,8 @@ def draw_graph(data):
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm.set_array([])
 
+    data = data.sort_values(by='Pt wt. %', ascending=True)
+
     # Creating the scatter plot
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(
@@ -23,13 +25,13 @@ def draw_graph(data):
         c=sm.to_rgba(data['Pt wt. %']),  # Color based on 'Pt wt. %'
         cmap=cmap,
         norm=norm,
-        alpha=0.7,
         edgecolor='none'
     )
 
     # Adding color bar for 'Pt wt. %'
     cbar = plt.colorbar(scatter, label='Pt wt. %')
     cbar.update_normal(sm)
+
 
     # Defining custom legend for 'Cathode Precious Metal Loading'
     # Specifying ranges for the legend
