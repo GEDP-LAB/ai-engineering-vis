@@ -29,6 +29,20 @@ COLOR_RANGE = np.array([
     np.array([55, 103, 149]),
     np.array([30, 70, 110]),
 ])
+
+COLOR_RANGE_PINK = np.array([
+    # np.array([251, 228, 216]),
+    # np.array([223, 182, 178]),
+    # np.array([133, 79, 108]),
+    # np.array([82, 43, 91]),
+    # np.array([43, 18, 76]),
+    np.array([242, 227, 231]),
+    np.array([178, 68, 107]),
+
+])
+
+COLOR_BLACK = np.array([0, 0, 0])
+
 COLOR_RANGE_SUBSET2 = COLOR_RANGE[0:4][::-1]
 COLOR_RANGE_SUBSET1 = COLOR_RANGE[5:9]
 COLOR_GROUPS = [COLOR_RANGE[9], COLOR_RANGE[6], COLOR_RANGE[4], COLOR_RANGE[0]]
@@ -37,6 +51,8 @@ COLOR_RANGE_NORM = COLOR_RANGE / 255.0
 COLOR_RANGE_SUBSET_NORM2 = COLOR_RANGE_NORM[0:4][::-1]
 COLOR_RANGE_SUBSET_NORM1 = COLOR_RANGE_NORM[5:9]
 COLOR_GROUPS_NORM = [COLOR_RANGE_NORM[9], COLOR_RANGE_NORM[6], COLOR_RANGE_NORM[4], COLOR_RANGE_NORM[0]]
+COLOR_RANGE_PINK_NORM = COLOR_RANGE_PINK / 255.0
+COLOR_BLACK_NORM = COLOR_BLACK / 255.0
 
 class DATASET(Enum):
     ANODE = "anode",

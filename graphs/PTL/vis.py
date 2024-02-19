@@ -67,7 +67,6 @@ def draw_graph(data):
     handles, labels = plt.gca().get_legend_handles_labels()
     # keep unique handles
     by_label = dict(zip(labels, handles))
-    print(by_label)
     plt.legend(by_label.values(), by_label.keys(),
                title='PTL Type',
                bbox_to_anchor=(1.05, 1))

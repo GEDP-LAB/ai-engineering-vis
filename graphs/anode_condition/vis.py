@@ -19,6 +19,8 @@ def draw_graph(data):
     # Renaming the column for easier access
     data = data.rename(columns={'Anode Precious Metal Loading (mg cm-2 Ir/Ru/Pt/Pd)': 'Anode Precious Metal Loading'})
 
+    data = data.sort_values(by='Pure_0/Supported_1', ascending=True)
+
     # Creating the scatter plot
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(
@@ -27,7 +29,7 @@ def draw_graph(data):
         c=sm.to_rgba(data['Ir wt. %']),
         cmap=cmap,
         norm=norm,
-        edgecolor=['black' if x == 0 else config.COLOR_RANGE_NORM[-1] for x in data['Pure_0/Supported_1']],
+        edgecolor=[config.COLOR_BLACK_NORM if x == 0 else config.COLOR_RANGE_NORM[-1] for x in data['Pure_0/Supported_1']],
         linewidths=data['Anode Precious Metal Loading']
     )
 
@@ -49,7 +51,7 @@ def draw_graph(data):
                             markeredgecolor='red',
                             markersize=10,
                             label='Supported (Red Edge)', linestyle='None')
-    edge_color_legend = plt.legend(handles=[legend1, legend2], loc='upper right', title='Edge Color')
+    edge_color_legend = plt.legend(handles=[legend1, legend2], loc='upper right', title='Pure or Supported')
 
     # Add the edge color legend manually to the plot and make room for the next legend
     plt.gca().add_artist(edge_color_legend)
@@ -59,19 +61,19 @@ def draw_graph(data):
                             color='white', marker='o',
                             markeredgecolor='black',
                             markersize=10,
-                            label='Lower Metal Loading', markeredgewidth=1, linestyle='None')
+                            label='Lower', markeredgewidth=1, linestyle='None')
     legend4 = mlines.Line2D([], [],
                             color='white',
                             marker='o',
                             markeredgecolor='black',
                             markersize=10,
-                            label='Higher Metal Loading', markeredgewidth=5, linestyle='None')
+                            label='Higher', markeredgewidth=5, linestyle='None')
 
     # Adjusting the position of the second legend to be below the first one in the upper right
     plt.legend(handles=[legend3, legend4], loc='upper right', bbox_to_anchor=(1, 0.85), title='Metal Loading')
 
     # Setting labels and title
-    plt.xlabel('Ionmer catalyst ratio')
+    plt.xlabel('Ionmer catalyst ratio (v/$m^2$)')
     plt.ylabel('Y Value (1.8)')
     plt.title('Scatter Plot with Ionmer Catalyst Ratio and Y Value (1.8)')
 
