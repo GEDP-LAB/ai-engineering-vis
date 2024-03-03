@@ -12,6 +12,7 @@ import config
 def draw(dataset, data):
     if dataset == config.DATASET.ANODE:
         anode_condition.draw_graph(data)
+        # anode_condition.draw_hot_map(data)
         show(dataset)
     elif dataset == config.DATASET.CATHODE:
         cathode_condition.draw_graph(data)
@@ -33,6 +34,7 @@ def draw(dataset, data):
 
 def show(dataset):
     output_file_name = dataset.get_name() + '.jpg'
+    print('output_file_name:', output_file_name)
     if config.SHOW_PLOT:
         plt.show()
     if config.SAVE_PLOT:

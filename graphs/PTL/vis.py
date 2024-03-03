@@ -7,17 +7,22 @@ import config
 
 def draw_graph(data):
     # Transforming Anode and Cathode data
-    anode_data = data[['Title', 'Anode PTL Type', 'Anode PTL Thickness(㎛)', 1.8]].copy()
+    anode_data = data[['Title', 'Anode PTL Type', 'Anode PTL Thickness(㎛)', "1.8"]].copy()
     anode_data['PTL Type'] = anode_data['Anode PTL Type']
-    anode_data['PTL Thickness(㎛)'] = anode_data['Anode PTL Thickness(㎛)']
+    anode_data['PTL Thickness(㎛)'] = pd.to_numeric(anode_data['Anode PTL Thickness(㎛)'])
     anode_data['Anode or Cathode'] = 'Anode'
     anode_data.drop(['Anode PTL Type', 'Anode PTL Thickness(㎛)'], axis=1, inplace=True)
 
-    cathode_data = data[['Title', 'Cathode PTL Type ', 'Cathode PTL Thickness(㎛)', 1.8]].copy()
+    cathode_data = data[['Title', 'Cathode PTL Type ', 'Cathode PTL Thickness(㎛)', "1.8"]].copy()
     cathode_data['PTL Type'] = cathode_data['Cathode PTL Type ']
-    cathode_data['PTL Thickness(㎛)'] = cathode_data['Cathode PTL Thickness(㎛)']
+    cathode_data['PTL Thickness(㎛)'] = pd.to_numeric(cathode_data['Cathode PTL Thickness(㎛)'])
     cathode_data['Anode or Cathode'] = 'Cathode'
     cathode_data.drop(['Cathode PTL Type ', 'Cathode PTL Thickness(㎛)'], axis=1, inplace=True)
+
+    bins = [50, 100, 150, 200, 250, 300, 350, 400]
+    labels = ['50-100', '100-150', '150-200', '200-250', '250-300', '300-350', '350-400']
+    anode_data['PTL Thickness(㎛)'] = pd.cut(anode_data['PTL Thickness(㎛)'], bins=bins, labels=labels)
+    cathode_data['PTL Thickness(㎛)'] = pd.cut(cathode_data['PTL Thickness(㎛)'], bins=bins, labels=labels)
 
     # Combining Anode and Cathode data
     combined_data = pd.concat([anode_data, cathode_data])
@@ -29,6 +34,7 @@ def draw_graph(data):
 
     # Define colors for each 'PTL Type'
     unique_ptl_types = combined_data['PTL Type'].unique()
+    # print(unique_ptl_types.max(), unique_ptl_types.min())
     colors = config.COLOR_GROUPS_NORM[0:len(unique_ptl_types)]
 
     # Splitting the scatter plot into two: one for Anode and one for Cathode
@@ -39,7 +45,7 @@ def draw_graph(data):
     anode_data_only = combined_data[combined_data['Anode or Cathode'] == 'Anode']
     for ptype, ptype_group in anode_data_only.groupby('PTL Type'):
         sns.violinplot(x=ptype_group['PTL Thickness(㎛)'],
-                       y=ptype_group[1.8],
+                       y=ptype_group["1.8"],
                        color=colors[list(unique_ptl_types).index(ptype)],
                        label=f'{ptype}')
 
@@ -60,7 +66,7 @@ def draw_graph(data):
     cathode_data_only = combined_data[combined_data['Anode or Cathode'] == 'Cathode']
     for ptype, ptype_group in cathode_data_only.groupby('PTL Type'):
         sns.violinplot(x=ptype_group['PTL Thickness(㎛)'],
-                       y=ptype_group[1.8],
+                       y=ptype_group["1.8"],
                        color=colors[list(unique_ptl_types).index(ptype)],
                        label=f'{ptype}')
 

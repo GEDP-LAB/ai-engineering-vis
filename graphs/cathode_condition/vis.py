@@ -19,7 +19,7 @@ def draw_graph(data):
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(
         data['Pt wt. %'],
-        data[1.8],
+        data["1.8"],
         s=data['Cathode Precious Metal Loading (mg cm-2 Pt/Pd)']*50,  # Adjust size for visibility
         c=sm.to_rgba(data['I/C in Cathode']),  # Color based on 'Pt wt. %'
         cmap=cmap,

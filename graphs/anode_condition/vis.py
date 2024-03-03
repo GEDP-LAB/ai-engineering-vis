@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import matplotlib.colors as mcolors
+import seaborn as sns
 
 import config
 
@@ -25,7 +26,7 @@ def draw_graph(data):
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(
         data['Ionmer catalyst ratio'],
-        data[1.8],
+        data["1.8"],
         c=sm.to_rgba(data['Ir wt. %']),
         cmap=cmap,
         norm=norm,
@@ -77,3 +78,33 @@ def draw_graph(data):
     plt.ylabel('Y Value (1.8)')
     plt.title('Scatter Plot with Ionmer Catalyst Ratio and Y Value (1.8)')
 
+
+def draw_hot_map(data):
+    # for each bin, the y will be 1.5, 1.8 and 2
+    # x will be the Ionmer catalyst ratio
+    # the color will be the value of 1.5, 1.8 and 2
+    # use the seaborn heatmap
+    plt.figure(figsize=(10, 6))
+
+    # cut Ionmer catalyst ratio into 5 bins
+    data['Ionmer catalyst ratio'] = pd.cut(data['Ionmer catalyst ratio'], 5)
+
+    # mean of Ir wt. % in each bin as the value
+    cmap = mcolors.LinearSegmentedColormap.from_list("custom_cmap", config.COLOR_RANGE_SUBSET_NORM1)
+    data_melted = data.melt(id_vars=['Ionmer catalyst ratio', 'Ir wt. %'],
+                            value_vars=[1.5, 1.8, 2],
+                            var_name='Y Value',
+                            value_name='Measurement')
+    print(data_melted.head())
+    data_pivoted = data_melted.pivot_table(index='Y Value',
+                                           columns='Ionmer catalyst ratio',
+                                           values='Measurement')
+
+    sns.heatmap(data_pivoted,
+                cmap=cmap,
+                annot=True,
+                fmt=".2f",
+                linewidths=.5)
+    plt.xlabel('Ionomer catalyst ratio (v/$m^2$)')
+    plt.ylabel('Y Value')
+    plt.title('Heatmap with Ionomer Catalyst Ratio and Y Value')

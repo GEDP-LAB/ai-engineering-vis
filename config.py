@@ -2,7 +2,7 @@ from enum import Enum
 
 import numpy as np
 
-SAVE_PLOT = True
+SAVE_PLOT = False
 SHOW_PLOT = True
 DATA_DIR = './data/'
 OUTPUT_DIR = './output/'
@@ -54,6 +54,7 @@ COLOR_GROUPS_NORM = [COLOR_RANGE_NORM[9], COLOR_RANGE_NORM[6], COLOR_RANGE_NORM[
 COLOR_RANGE_PINK_NORM = COLOR_RANGE_PINK / 255.0
 COLOR_BLACK_NORM = COLOR_BLACK / 255.0
 
+
 class DATASET(Enum):
     ANODE = "anode",
     CATHODE = "cathode",
@@ -64,3 +65,32 @@ class DATASET(Enum):
 
     def get_name(self):
         return self.value[0]
+
+
+DATA_MAP = {
+    "Unnamed: 0": "Title",
+    "Operating Temperature (℃)": "Operating Temperature (℃)",
+    "Cathode Pressure (bar)": "Cathode Pressure (bar)",
+    "Anode Pressure (bar)": "Anode Pressure (bar)",
+    "Flow Rate (Ml/min)": "Flow Rate (Ml/min)",
+    "Active Area (cm2)": "Active Area (cm2)",
+    "Ir wt. %": "Ir wt. %",
+    "Ru wt.%": "Ru wt.%",
+    "O wt. %": "O wt. %",
+    "C wt. %": "C wt. %",
+    "Pure_0/Supported_1": "Pure_0/Supported_1",
+    "Anode Precious Metal Loading (mg cm-2 Ir/Ru/Pt/Pd)": "Anode Precious Metal Loading (mg cm-2 Ir/Ru/Pt/Pd)",
+    "Carbon wt%": "Ionmer catalyst ratio",
+    "Pt wt. %": "Pt wt. %",
+    "C wt. %.1": "C wt. %.1",
+    "I/C in Cathode": "I/C in Cathode",
+    "Cathode Precious Metal Loading (mg cm-2 Pt/Pd)": "Cathode Precious Metal Loading (mg cm-2 Pt/Pd)",
+    "Ultrasonic Spray_0/Brushing_1": "Ultrasonic Spray_0/Brushing_1",
+    "Membrane Thickness (㎛)": "Membrane Thickness (㎛)",
+    "Membrane EW": "Membrane EW",
+    "Anode PTL Thickness(㎛)": "Anode PTL Thickness(㎛)",
+    "Cathode PTL Thickness(㎛)": "Cathode PTL Thickness(㎛)",
+    "1.5": "1.5",
+    "1.8": "1.8",
+    "2": "2",
+}

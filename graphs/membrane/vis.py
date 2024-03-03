@@ -37,7 +37,7 @@ def draw_graph(data):
     for i, ptl_type in enumerate(unique_ptl_types):
         subsubset = subset[subset['Membrane EW'] == ptl_type]
         sns.violinplot(x='Membrane Thickness (㎛)',
-                       y=1.8,
+                       y="1.8",
                        label=ptl_type,
                        data=subsubset,
                        palette=colors[i:i+1])
@@ -58,7 +58,7 @@ def draw_graph(data):
     for i, ptl_type in enumerate(unique_ptl_types):
         subsubset = subset[subset['Membrane EW'] == ptl_type]
         sns.violinplot(x='Membrane Thickness (㎛)',
-                       y=1.8,
+                       y="1.8",
                        label=ptl_type,
                        data=subsubset,
                        palette=colors[i:i+1])

@@ -36,7 +36,7 @@ def draw_graph(data):
 
     # Create scatter plot
     plt.figure(figsize=(12, 8))
-    scatter = plt.scatter(data['Active Area (cm2)'], data[1.8],
+    scatter = plt.scatter(data['Active Area (cm2)'], data["1.8"],
                           c=data['Flow Rate (Ml/min)'],
                           cmap=cmap,
                           s=100 * data['size'] + 10,
