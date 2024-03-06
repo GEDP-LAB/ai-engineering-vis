@@ -12,8 +12,6 @@ def draw_graph(data):
     data['Membrane Thickness (㎛)'] = pd.to_numeric(data['Membrane Thickness (㎛)'], errors='coerce')
     data['Membrane EW'] = pd.to_numeric(data['Membrane EW'], errors='coerce')
 
-    print(data['Membrane EW'])
-
     plt.figure(figsize=(15, 6))
 
     cmap = mcolors.LinearSegmentedColormap.from_list("custom_cmap", config.COLOR_RANGE_SUBSET_NORM1)
