@@ -33,9 +33,11 @@ def draw_graph(data):
     combined_data = combined_data[combined_data['PTL Type'] != 'nan']
 
     # Define colors for each 'PTL Type'
-    unique_ptl_types = combined_data['PTL Type'].unique()
-    # print(unique_ptl_types.max(), unique_ptl_types.min())
+    unique_ptl_types = ["0.0", "1.0", "2.0", "3.0"]
+    # for legend
+    labels_name = ['Carbon Paper', 'Titanium Fiber Mesh', 'Titanium Gold', 'Carbon Cloth']
     colors = config.COLOR_GROUPS_NORM[0:len(unique_ptl_types)]
+    labels_color = [colors[0], colors[1], colors[2], colors[3]]
 
     # Splitting the scatter plot into two: one for Anode and one for Cathode
     plt.figure(figsize=(15, 6))
@@ -49,10 +51,9 @@ def draw_graph(data):
                        color=colors[list(unique_ptl_types).index(ptype)],
                        label=f'{ptype}')
 
-    # get the handles and labels. For this example it'll be 2 tuples
-    handles, labels = plt.gca().get_legend_handles_labels()
-    by_label = dict(zip(labels, handles))
-    plt.legend(by_label.values(), by_label.keys(),
+    # add legend
+    patches = [plt.plot([], [], marker="o", ms=10, ls="", mec=None, color=labels_color[i], label="{:s}".format(labels_name[i]))[0] for i in range(len(labels_name))]
+    plt.legend(handles=patches,
                title='PTL Type',
                bbox_to_anchor=(1.05, 1))
 
@@ -70,13 +71,11 @@ def draw_graph(data):
                        color=colors[list(unique_ptl_types).index(ptype)],
                        label=f'{ptype}')
 
-    handles, labels = plt.gca().get_legend_handles_labels()
-    # keep unique handles
-    by_label = dict(zip(labels, handles))
-    plt.legend(by_label.values(), by_label.keys(),
+    # add legend
+    patches = [plt.plot([], [], marker="o", ms=10, ls="", mec=None, color=labels_color[i], label="{:s}".format(labels_name[i]))[0] for i in range(len(labels_name))]
+    plt.legend(handles=patches,
                title='PTL Type',
                bbox_to_anchor=(1.05, 1))
-
 
     plt.xlabel(r'PTL Thickness($\mu$m)')
     plt.ylabel('Y Value (1.8)')

@@ -10,7 +10,7 @@ def read_xlsx_data(path):
     data = pd.read_excel(config.DATA_DIR + path)
     # change columns name to string
     data.columns = data.columns.astype(str)
-    y_index = [len(data.columns) - 1, len(data.columns) - 2, len(data.columns) - 3, 0]
+    y_index = [data.columns.get_loc('1.5'), data.columns.get_loc('1.8'), data.columns.get_loc('2'), 0]
     operation_data = get_subset(data, [1, 2, 3, 4, 5] + y_index)
     anode_data = get_subset(data, [6, 7, 8, 9, 10, 11, 12] + y_index)
     cathode_data = get_subset(data, [13, 14, 15, 16] + y_index)
@@ -21,7 +21,7 @@ def read_xlsx_data(path):
 def read_csv_data(path):
     data = pd.read_csv(config.DATA_DIR + path)
     # get the number of columns
-    y_index = [len(data.columns) - 1, len(data.columns) - 2, len(data.columns) - 3, 0]
+    y_index = [data.columns.get_loc('1.5'), data.columns.get_loc('1.8'), data.columns.get_loc('2'), 0]
     operation_data = column_rename(get_subset(data, [1, 2, 3, 4, 5] + y_index))
     anode_data = column_rename(get_subset(data, [6, 7, 8, 9, 10, 11, 12] + y_index))
     cathode_data = column_rename(get_subset(data, [13, 14, 15, 16] + y_index))

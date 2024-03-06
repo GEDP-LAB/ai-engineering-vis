@@ -43,7 +43,6 @@ def draw_graph(data):
                        palette=colors[i:i+1])
     handles, labels = plt.gca().get_legend_handles_labels()
     by_label = dict(zip(labels, handles))
-    print(by_label)
     plt.legend(by_label.values(), by_label.keys(),
                title='Membrane EW',
                bbox_to_anchor=(1.05, 1))
