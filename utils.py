@@ -8,8 +8,9 @@ def get_subset(data, columns):
 
 def read_xlsx_data(path):
     data = pd.read_excel(config.DATA_DIR + path)
-    # change columns name to string
+    # remove the empty space at the end of the column name
     data.columns = data.columns.astype(str)
+    data.columns = data.columns.str.strip()
     y_index = [data.columns.get_loc('1.5'), data.columns.get_loc('1.8'), data.columns.get_loc('2'), 0]
     operation_data = get_subset(data, [1, 2, 3, 4, 5] + y_index)
     anode_data = get_subset(data, [6, 7, 8, 9, 10, 11, 12] + y_index)

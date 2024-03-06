@@ -8,16 +8,18 @@ import config
 def draw_graph(data):
     # Transforming Anode and Cathode data
     anode_data = data[['Title', 'Anode PTL Type', 'Anode PTL Thickness(㎛)', "1.8"]].copy()
-    anode_data['PTL Type'] = anode_data['Anode PTL Type']
+    # does not keep decimal point
+    anode_data['PTL Type'] = [str(int(x)) for x in anode_data['Anode PTL Type']]
     anode_data['PTL Thickness(㎛)'] = pd.to_numeric(anode_data['Anode PTL Thickness(㎛)'])
     anode_data['Anode or Cathode'] = 'Anode'
     anode_data.drop(['Anode PTL Type', 'Anode PTL Thickness(㎛)'], axis=1, inplace=True)
+    print(anode_data['PTL Type'])
 
-    cathode_data = data[['Title', 'Cathode PTL Type ', 'Cathode PTL Thickness(㎛)', "1.8"]].copy()
-    cathode_data['PTL Type'] = cathode_data['Cathode PTL Type ']
+    cathode_data = data[['Title', 'Cathode PTL Type', 'Cathode PTL Thickness(㎛)', "1.8"]].copy()
+    cathode_data['PTL Type'] =  [str(int(x)) for x in cathode_data['Cathode PTL Type']]
     cathode_data['PTL Thickness(㎛)'] = pd.to_numeric(cathode_data['Cathode PTL Thickness(㎛)'])
     cathode_data['Anode or Cathode'] = 'Cathode'
-    cathode_data.drop(['Cathode PTL Type ', 'Cathode PTL Thickness(㎛)'], axis=1, inplace=True)
+    cathode_data.drop(['Cathode PTL Type', 'Cathode PTL Thickness(㎛)'], axis=1, inplace=True)
 
     bins = [50, 100, 150, 200, 250, 300, 350, 400]
     labels = ['50-100', '100-150', '150-200', '200-250', '250-300', '300-350', '350-400']
@@ -29,12 +31,11 @@ def draw_graph(data):
 
     # Cleaning the 'PTL Type' column and removing NaN values
     combined_data['PTL Type'] = combined_data['PTL Type'].astype(str)
-    combined_data = combined_data[~combined_data['PTL Type'].str.isnumeric()]
     combined_data = combined_data[combined_data['PTL Type'] != 'nan']
 
+
     # Define colors for each 'PTL Type'
-    unique_ptl_types = ["0.0", "1.0", "2.0", "3.0"]
-    # for legend
+    unique_ptl_types = ["0", "1", "2", "3"]
     labels_name = ['Carbon Paper', 'Titanium Fiber Mesh', 'Titanium Gold', 'Carbon Cloth']
     colors = config.COLOR_GROUPS_NORM[0:len(unique_ptl_types)]
     labels_color = [colors[0], colors[1], colors[2], colors[3]]
@@ -50,7 +51,6 @@ def draw_graph(data):
                        y=ptype_group["1.8"],
                        color=colors[list(unique_ptl_types).index(ptype)],
                        label=f'{ptype}')
-
     # add legend
     patches = [plt.plot([], [], marker="o", ms=10, ls="", mec=None, color=labels_color[i], label="{:s}".format(labels_name[i]))[0] for i in range(len(labels_name))]
     plt.legend(handles=patches,
@@ -68,8 +68,8 @@ def draw_graph(data):
     for ptype, ptype_group in cathode_data_only.groupby('PTL Type'):
         sns.violinplot(x=ptype_group['PTL Thickness(㎛)'],
                        y=ptype_group["1.8"],
-                       color=colors[list(unique_ptl_types).index(ptype)],
-                       label=f'{ptype}')
+                        color=colors[list(unique_ptl_types).index(ptype)],
+                        label=f'{ptype}')
 
     # add legend
     patches = [plt.plot([], [], marker="o", ms=10, ls="", mec=None, color=labels_color[i], label="{:s}".format(labels_name[i]))[0] for i in range(len(labels_name))]
