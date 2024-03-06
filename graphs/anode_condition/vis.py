@@ -95,7 +95,6 @@ def draw_hot_map(data):
                             value_vars=[1.5, 1.8, 2],
                             var_name='Y Value',
                             value_name='Measurement')
-    print(data_melted.head())
     data_pivoted = data_melted.pivot_table(index='Y Value',
                                            columns='Ionmer catalyst ratio',
                                            values='Measurement')
