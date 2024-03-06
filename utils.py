@@ -21,7 +21,7 @@ def read_xlsx_data(path):
 
 def read_csv_data(path):
     data = pd.read_csv(config.DATA_DIR + path)
-    # get the number of columns
+    data.columns = data.columns.str.strip()
     y_index = [data.columns.get_loc('1.5'), data.columns.get_loc('1.8'), data.columns.get_loc('2'), 0]
     operation_data = column_rename(get_subset(data, [1, 2, 3, 4, 5] + y_index))
     anode_data = column_rename(get_subset(data, [6, 7, 8, 9, 10, 11, 12] + y_index))
