@@ -13,7 +13,6 @@ def draw_graph(data):
     anode_data['PTL Thickness(㎛)'] = pd.to_numeric(anode_data['Anode PTL Thickness(㎛)'])
     anode_data['Anode or Cathode'] = 'Anode'
     anode_data.drop(['Anode PTL Type', 'Anode PTL Thickness(㎛)'], axis=1, inplace=True)
-    print(anode_data['PTL Type'])
 
     cathode_data = data[['Title', 'Cathode PTL Type', 'Cathode PTL Thickness(㎛)', "1.8"]].copy()
     cathode_data['PTL Type'] =  [str(int(x)) for x in cathode_data['Cathode PTL Type']]
