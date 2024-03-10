@@ -10,6 +10,8 @@ from .overall import vis as overall
 import config
 
 def draw(dataset, data, y_value='1.8'):
+    # copy the data to avoid changing the original data
+    data = data.copy()
     if dataset == config.DATASET.ANODE:
         anode_condition.draw_graph(data, y_value)
         show(dataset)
