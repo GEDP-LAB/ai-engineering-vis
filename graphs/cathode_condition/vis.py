@@ -5,7 +5,7 @@ import matplotlib.lines as mlines
 import config
 
 
-def draw_graph(data):
+def draw_graph(data, y_value='1.8'):
     cmap = mcolors.LinearSegmentedColormap.from_list("custom_cmap", config.COLOR_RANGE_NORM[::-1])
     norm = mcolors.Normalize(vmin=data['I/C in Cathode'].min(), vmax=data['I/C in Cathode'].max())
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
@@ -19,7 +19,7 @@ def draw_graph(data):
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(
         data['Pt wt. %'],
-        data["1.8"],
+        data[y_value],
         s=data['Cathode Precious Metal Loading (mg cm-2 Pt/Pd)']*50,  # Adjust size for visibility
         c=sm.to_rgba(data['I/C in Cathode']),  # Color based on 'Pt wt. %'
         cmap=cmap,
@@ -48,5 +48,5 @@ def draw_graph(data):
 
     # Setting labels and title
     plt.xlabel('Cathode Precious Metal Loading (mg cm-2 Pt/Pd)')
-    plt.ylabel('Y Value (1.8)')
-    plt.title('Scatter Plot with Cathode Precious Metal Loading and Y Value (1.8)')
+    plt.ylabel(f'Y Value ({y_value})')
+    plt.title(f'Scatter Plot with Cathode Precious Metal Loading and Y Value ({y_value})')

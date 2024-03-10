@@ -9,22 +9,21 @@ from .overall import vis as overall
 
 import config
 
-def draw(dataset, data):
+def draw(dataset, data, y_value='1.8'):
     if dataset == config.DATASET.ANODE:
-        anode_condition.draw_graph(data)
-        # anode_condition.draw_hot_map(data)
+        anode_condition.draw_graph(data, y_value)
         show(dataset)
     elif dataset == config.DATASET.CATHODE:
-        cathode_condition.draw_graph(data)
+        cathode_condition.draw_graph(data, y_value)
         show(dataset)
     elif dataset == config.DATASET.MEMBRANE:
-        membrane_condition.draw_graph(data)
+        membrane_condition.draw_graph(data, y_value)
         show(dataset)
     elif dataset == config.DATASET.OPERATING_CONDITION:
-        operation.draw_graph(data)
+        operation.draw_graph(data, y_value)
         show(dataset)
     elif dataset == config.DATASET.PLT:
-        ptl.draw_graph(data)
+        ptl.draw_graph(data, y_value)
         show(dataset)
     elif dataset == config.DATASET.OVERALL:
         overall.draw_graph(data)

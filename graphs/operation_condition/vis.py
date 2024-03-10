@@ -7,7 +7,7 @@ import numpy as np
 import config
 
 
-def draw_graph(data):
+def draw_graph(data, y_value='1.8'):
     # Prepare the data for visualization
     data['Active Area (cm2)'] = pd.to_numeric(data['Active Area (cm2)'], errors='coerce')
     data = data[data['Active Area (cm2)'] < 25]
@@ -36,7 +36,7 @@ def draw_graph(data):
 
     # Create scatter plot
     plt.figure(figsize=(12, 8))
-    scatter = plt.scatter(data['Active Area (cm2)'], data["1.8"],
+    scatter = plt.scatter(data['Active Area (cm2)'], data[y_value],
                           c=data['Flow Rate (Ml/min)'],
                           cmap=cmap,
                           s=100 * data['size'] + 10,
@@ -52,8 +52,8 @@ def draw_graph(data):
 
     # Adding labels and title
     plt.xlabel('Active Area (cm²)')
-    plt.ylabel('1.8')
-    plt.title('Active Area vs Y Value (1.8)')
+    plt.ylabel(y_value)
+    plt.title(f'Active Area vs Y Value ({y_value})')
 
     # Legends for temperature
     temp_sizes = [data['Operating Temperature (℃)'].min(),

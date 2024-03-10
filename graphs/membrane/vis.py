@@ -6,7 +6,7 @@ import pandas as pd
 import config
 
 
-def draw_graph(data):
+def draw_graph(data, y_value='1.8'):
     # Ensure 'Membrane Thickness (㎛)' and 'Membrane EW' are numeric
     # only keep 1 decimal point
     data['Membrane Thickness (㎛)'] = pd.to_numeric(data['Membrane Thickness (㎛)'], errors='coerce')
@@ -35,7 +35,7 @@ def draw_graph(data):
     for i, ptl_type in enumerate(unique_ptl_types):
         subsubset = subset[subset['Membrane EW'] == ptl_type]
         sns.violinplot(x='Membrane Thickness (㎛)',
-                       y="1.8",
+                       y=y_value,
                        label=ptl_type,
                        data=subsubset,
                        palette=colors[i:i+1])
@@ -45,7 +45,7 @@ def draw_graph(data):
                title='Membrane EW',
                bbox_to_anchor=(1.05, 1))
     plt.xlabel(r'Membrane Thickness ($\mu$m)')
-    plt.ylabel('Y Value (1.8)')  # Update this label according to your actual Y-axis label
+    plt.ylabel(f'Y Value ({y_value})')  # Update this label according to your actual Y-axis label
     plt.title(r'Ultrasonic Spray: Membrane Thickness vs. Y Value')
     plt.grid(True)
 
@@ -55,7 +55,7 @@ def draw_graph(data):
     for i, ptl_type in enumerate(unique_ptl_types):
         subsubset = subset[subset['Membrane EW'] == ptl_type]
         sns.violinplot(x='Membrane Thickness (㎛)',
-                       y="1.8",
+                       y=y_value,
                        label=ptl_type,
                        data=subsubset,
                        palette=colors[i:i+1])
@@ -67,6 +67,6 @@ def draw_graph(data):
                bbox_to_anchor=(1.05, 1))
 
     plt.xlabel(r'Membrane Thickness ($\mu$m)')
-    plt.ylabel('Y Value (1.8)')  # Update this label according to your actual Y-axis label
+    plt.ylabel(f'Y Value ({y_value})')  # Update this label according to your actual Y-axis label
     plt.title('Brushing: Membrane Thickness vs. Y Value')
     plt.grid(True)

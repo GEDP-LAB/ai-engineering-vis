@@ -17,7 +17,8 @@ def read_xlsx_data(path):
     cathode_data = get_subset(data, [13, 14, 15, 16] + y_index)
     membrane_data = get_subset(data, [17, 18, 19] + y_index)
     PTL_data = get_subset(data, [20, 21, 22, 23] + y_index)
-    return operation_data, anode_data, cathode_data, membrane_data, PTL_data
+    overall_data = get_subset(data, y_index)
+    return operation_data, anode_data, cathode_data, membrane_data, PTL_data, overall_data
 
 def read_csv_data(path):
     data = pd.read_csv(config.DATA_DIR + path)
@@ -28,7 +29,8 @@ def read_csv_data(path):
     cathode_data = column_rename(get_subset(data, [13, 14, 15, 16] + y_index))
     membrane_data = column_rename(get_subset(data, [17, 18, 19] + y_index))
     PTL_data = column_rename(get_subset(data, [20, 21, 22, 23] + y_index))
-    return operation_data, anode_data, cathode_data, membrane_data, PTL_data
+    overall_data = get_subset(data, y_index)
+    return operation_data, anode_data, cathode_data, membrane_data, PTL_data, overall_data
 
 def column_rename(data):
     data.columns = [config.DATA_MAP[data.columns[i]] for i in range(len(data.columns))]

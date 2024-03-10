@@ -7,7 +7,7 @@ import seaborn as sns
 import config
 
 
-def draw_graph(data):
+def draw_graph(data, y_value='1.8'):
     # Convert 'Ionmer catalyst ratio' to numeric values for plotting
     data['Ionmer catalyst ratio'] = pd.to_numeric(data['Ionmer catalyst ratio'], errors='coerce')
 
@@ -26,7 +26,7 @@ def draw_graph(data):
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(
         data['Ionmer catalyst ratio'],
-        data["1.8"],
+        data[y_value],
         c=sm.to_rgba(data['Ir wt. %']),
         cmap=cmap,
         norm=norm,
@@ -75,8 +75,8 @@ def draw_graph(data):
 
     # Setting labels and title
     plt.xlabel('Ionmer catalyst ratio (v/$m^2$)')
-    plt.ylabel('Y Value (1.8)')
-    plt.title('Scatter Plot with Ionmer Catalyst Ratio and Y Value (1.8)')
+    plt.ylabel(f'Y Value ({y_value})')
+    plt.title(f'Scatter Plot with Ionmer Catalyst Ratio and Y Value ({y_value})')
 
 
 def draw_hot_map(data):

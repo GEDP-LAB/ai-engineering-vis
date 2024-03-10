@@ -5,16 +5,16 @@ import pandas as pd
 import config
 
 
-def draw_graph(data):
+def draw_graph(data, y_value='1.8'):
     # Transforming Anode and Cathode data
-    anode_data = data[['Title', 'Anode PTL Type', 'Anode PTL Thickness(㎛)', "1.8"]].copy()
+    anode_data = data[['Title', 'Anode PTL Type', 'Anode PTL Thickness(㎛)', y_value]].copy()
     # does not keep decimal point
     anode_data['PTL Type'] = [str(int(x)) for x in anode_data['Anode PTL Type']]
     anode_data['PTL Thickness(㎛)'] = pd.to_numeric(anode_data['Anode PTL Thickness(㎛)'])
     anode_data['Anode or Cathode'] = 'Anode'
     anode_data.drop(['Anode PTL Type', 'Anode PTL Thickness(㎛)'], axis=1, inplace=True)
 
-    cathode_data = data[['Title', 'Cathode PTL Type', 'Cathode PTL Thickness(㎛)', "1.8"]].copy()
+    cathode_data = data[['Title', 'Cathode PTL Type', 'Cathode PTL Thickness(㎛)', y_value]].copy()
     cathode_data['PTL Type'] =  [str(int(x)) for x in cathode_data['Cathode PTL Type']]
     cathode_data['PTL Thickness(㎛)'] = pd.to_numeric(cathode_data['Cathode PTL Thickness(㎛)'])
     cathode_data['Anode or Cathode'] = 'Cathode'
@@ -47,7 +47,7 @@ def draw_graph(data):
     anode_data_only = combined_data[combined_data['Anode or Cathode'] == 'Anode']
     for ptype, ptype_group in anode_data_only.groupby('PTL Type'):
         sns.violinplot(x=ptype_group['PTL Thickness(㎛)'],
-                       y=ptype_group["1.8"],
+                       y=ptype_group[y_value],
                        color=colors[list(unique_ptl_types).index(ptype)],
                        label=f'{ptype}')
     # add legend
@@ -57,7 +57,7 @@ def draw_graph(data):
                bbox_to_anchor=(1.05, 1))
 
     plt.xlabel('PTL Thickness($\mu$m)')
-    plt.ylabel('Y Value (1.8)')
+    plt.ylabel(f'Y Value ({y_value})')
     plt.title('Anode: PTL Thickness vs. Y Value')
     plt.grid(True)
 
@@ -66,7 +66,7 @@ def draw_graph(data):
     cathode_data_only = combined_data[combined_data['Anode or Cathode'] == 'Cathode']
     for ptype, ptype_group in cathode_data_only.groupby('PTL Type'):
         sns.violinplot(x=ptype_group['PTL Thickness(㎛)'],
-                       y=ptype_group["1.8"],
+                       y=ptype_group[y_value],
                         color=colors[list(unique_ptl_types).index(ptype)],
                         label=f'{ptype}')
 
@@ -77,6 +77,6 @@ def draw_graph(data):
                bbox_to_anchor=(1.05, 1))
 
     plt.xlabel(r'PTL Thickness($\mu$m)')
-    plt.ylabel('Y Value (1.8)')
+    plt.ylabel(f'Y Value ({y_value})')
     plt.title('Cathode: PTL Thickness vs. Y Value')
     plt.grid(True)
