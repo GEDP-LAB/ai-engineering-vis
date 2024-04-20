@@ -1,6 +1,10 @@
+import textwrap
+
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import matplotlib.lines as mlines
+import pandas as pd
+import seaborn as sns
 
 import config
 
@@ -33,7 +37,7 @@ def draw_graph(data, y_value='1.8'):
     cbar.set_label('I/C in Cathode', rotation=270, labelpad=15)
 
     # For linewidth - representing 'Anode Precious Metal Loading'
-    legend1 = mlines.Line2D([], [],
+    legend1 = mlines.Line2D( [], [],
                             color='gray', marker='o',
                             markersize=4,
                             label='Lower', linestyle='None')
@@ -50,3 +54,24 @@ def draw_graph(data, y_value='1.8'):
     plt.xlabel('Cathode Precious Metal Loading (mg cm-2 Pt/Pd)')
     plt.ylabel(f'Y Value ({y_value})')
     plt.title(f'Scatter Plot with Cathode Precious Metal Loading and Y Value ({y_value})')
+
+
+def draw_feature_correlation_heatmap(data):
+    plt.figure(figsize=(12, 10))
+
+    for column in data.columns:
+        data[column] = pd.to_numeric(data[column], errors='coerce')
+
+    data.dropna(axis=1, how='all', inplace=True)  # Optional: remove columns that are completely non-numeric
+
+    # Compute the correlation matrix
+    correlation_matrix = data.corr()
+
+    cmap = mcolors.LinearSegmentedColormap.from_list("custom_cmap", config.COLOR_RANGE_SUBSET_NORM1)
+    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap=cmap, linewidths=.5, cbar_kws={"shrink": .8},
+                     annot_kws={"size": 8})
+    ax.set_xticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_xticklabels()])
+    ax.set_yticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_yticklabels()])
+    plt.xlabel('Features', fontsize=12)
+    plt.ylabel('Features', fontsize=12)
+    plt.tight_layout()  # Adjust layout

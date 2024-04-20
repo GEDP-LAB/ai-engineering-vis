@@ -1,3 +1,5 @@
+import textwrap
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -80,3 +82,23 @@ def draw_graph(data, y_value='1.8'):
     plt.ylabel(f'Y Value ({y_value})')
     plt.title('Cathode: PTL Thickness vs. Y Value')
     plt.grid(True)
+
+def draw_feature_correlation_heatmap(data, mcolors=None):
+    plt.figure(figsize=(12, 10))
+
+    for column in data.columns:
+        data[column] = pd.to_numeric(data[column], errors='coerce')
+
+    data.dropna(axis=1, how='all', inplace=True)  # Optional: remove columns that are completely non-numeric
+
+    # Compute the correlation matrix
+    correlation_matrix = data.corr()
+
+    cmap = mcolors.LinearSegmentedColormap.from_list("custom_cmap", config.COLOR_RANGE_SUBSET_NORM1)
+    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap=cmap, linewidths=.5, cbar_kws={"shrink": .8},
+                     annot_kws={"size": 8})
+    ax.set_xticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_xticklabels()])
+    ax.set_yticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_yticklabels()])
+    plt.xlabel('Features', fontsize=12)
+    plt.ylabel('Features', fontsize=12)
+    plt.tight_layout()  # Adjust layout

@@ -1,4 +1,7 @@
+import textwrap
+
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import matplotlib.colors as mcolors
@@ -79,31 +82,16 @@ def draw_graph(data, y_value='1.8'):
     plt.title(f'Scatter Plot with Ionmer Catalyst Ratio and Y Value ({y_value})')
 
 
-def draw_hot_map(data):
-    # for each bin, the y will be 1.5, 1.8 and 2
-    # x will be the Ionmer catalyst ratio
-    # the color will be the value of 1.5, 1.8 and 2
-    # use the seaborn heatmap
-    plt.figure(figsize=(10, 6))
+def draw_feature_correlation_heatmap(data):
+    plt.figure(figsize=(12, 10))
+    data_numeric = data.apply(pd.to_numeric, errors='coerce')
+    data_numeric = data_numeric.select_dtypes(include=[np.number])
+    correlation_matrix = data_numeric.corr()
 
-    # cut Ionmer catalyst ratio into 5 bins
-    data['Ionmer catalyst ratio'] = pd.cut(data['Ionmer catalyst ratio'], 5)
-
-    # mean of Ir wt. % in each bin as the value
     cmap = mcolors.LinearSegmentedColormap.from_list("custom_cmap", config.COLOR_RANGE_SUBSET_NORM1)
-    data_melted = data.melt(id_vars=['Ionmer catalyst ratio', 'Ir wt. %'],
-                            value_vars=[1.5, 1.8, 2],
-                            var_name='Y Value',
-                            value_name='Measurement')
-    data_pivoted = data_melted.pivot_table(index='Y Value',
-                                           columns='Ionmer catalyst ratio',
-                                           values='Measurement')
-
-    sns.heatmap(data_pivoted,
-                cmap=cmap,
-                annot=True,
-                fmt=".2f",
-                linewidths=.5)
-    plt.xlabel('Ionomer catalyst ratio (v/$m^2$)')
-    plt.ylabel('Y Value')
-    plt.title('Heatmap with Ionomer Catalyst Ratio and Y Value')
+    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap=cmap, linewidths=.5, cbar_kws={"shrink": .8}, annot_kws={"size": 8})
+    ax.set_xticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_xticklabels()])
+    ax.set_yticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_yticklabels()])
+    plt.xlabel('Features', fontsize=12)
+    plt.ylabel('Features', fontsize=12)
+    plt.tight_layout()  # Adjust layout

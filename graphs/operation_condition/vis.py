@@ -1,3 +1,5 @@
+import textwrap
+
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import pandas as pd
@@ -99,3 +101,17 @@ def draw_graph(data, y_value='1.8'):
     # Add the legend for Anode Pressure (Border Color)
     plt.legend(handles=anode_pressure_handles, title='Anode Pressure (Border Color)', loc='upper right',
                bbox_to_anchor=(1, 0.76))
+
+def draw_feature_correlation_heatmap(data, sns=None):
+    plt.figure(figsize=(12, 10))
+    data_numeric = data.apply(pd.to_numeric, errors='coerce')
+    data_numeric = data_numeric.select_dtypes(include=[np.number])
+    correlation_matrix = data_numeric.corr()
+
+    cmap = mcolors.LinearSegmentedColormap.from_list("custom_cmap", config.COLOR_RANGE_SUBSET_NORM1)
+    ax = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap=cmap, linewidths=.5, cbar_kws={"shrink": .8}, annot_kws={"size": 8})
+    ax.set_xticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_xticklabels()])
+    ax.set_yticklabels([textwrap.fill(label.get_text(), 15) for label in ax.get_yticklabels()])
+    plt.xlabel('Features', fontsize=12)
+    plt.ylabel('Features', fontsize=12)
+    plt.tight_layout()  # Adjust layout
